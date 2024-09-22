@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "specfempp-benchmarks"
+version = "0.1.0"
+description = "Benchmarks for SPECFEM++ codebase"
+authors = ["Rohit Kakodkar <kakodkar.rohit@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+snakemake = "^8.14.0"
+snakemake-executor-plugin-slurm = "^0.10.0"
+pre-commit = ">=3.8.0"
+snakefmt = ">=0.10.0"
+ruff = ">=0.6.7"
+
+[tool.snakefmt]
+line_length = 90
+include = '\.smk$|^Snakefile|\.py$'
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

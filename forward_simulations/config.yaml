@@ -1,0 +1,32 @@
+
+build_dir:
+  specfempp: "/scratch/gpfs/rk9481/specfem2d_kokkos/build"
+
+resources:
+  cpu:
+    nodes: 1
+    tasks: 1
+    cpus_per_task: 1
+    runtime: 10
+    constraint: skylake
+    slurm_extra: ""
+
+benchmarks:
+  benchmark_1:
+    cpu:
+      simulation_1:
+        nx: 80
+        nz: 60
+      simulation_2:
+        nx: 160
+        nz: 120
+      simulation_3:
+        nx: 320
+        nz: 240
+      simulation_4:
+        nx: 640
+        nz: 480
+      simulation_5:
+        nx: 1280
+        nz: 960
+    
