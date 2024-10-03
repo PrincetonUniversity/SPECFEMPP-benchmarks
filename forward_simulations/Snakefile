@@ -1,0 +1,57 @@
+
+include: "specfempp.smk"
+include: "specfem2d.smk"
+
+
+configfile: "config.yaml"
+
+
+rule all:
+    input:
+        results="results.png",
+
+
+rule plot_results:
+    input:
+        specfempp=expand(
+            "specfempp_workdir/{benchmark}/{machine}/results.csv",
+            benchmark=config["benchmarks"].keys(),
+            machine=config["resources"].keys(),
+        ),
+        specfem2d=expand(
+            "specfem2d_workdir/{benchmark}/{machine}/results.csv",
+            benchmark=config["benchmarks"].keys(),
+            machine=config["resources"].keys(),
+        ),
+        plot_script="../scripts/plot.py",
+    output:
+        plot="results.png",
+    localrule: True
+    run:
+        import sys
+
+        sys.path.append("../scripts")
+
+        from plot import plot
+        import matplotlib.pyplot as plt
+
+        nplots = len(input.specfempp)
+
+        fig, ax = plt.subplots(nplots, 2, figsize=(10, 4 * nplots))
+
+        for i in range(nplots):
+            benchmark = input.specfempp[i].split("/")[1]
+            machine = input.specfempp[i].split("/")[2]
+            label = config["description"][benchmark] + " (" + machine + ")"
+            plot(ax[i, 0], input.specfem2d[i], input.specfempp[i], label)
+
+        plt.savefig(output.plot)
+
+
+rule clean:
+    localrule: True
+    shell:
+        """
+        rm -rf specfempp_workdir 
+        rm -rf specfem2d_workdir
+        """

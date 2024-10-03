@@ -1,2 +1,3 @@
-workdir
+specfempp_workdir
+specfem2d_workdir
 .snakemake
