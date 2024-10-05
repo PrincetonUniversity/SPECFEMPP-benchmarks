@@ -1,17 +1,29 @@
 
 build_dir:
-  specfempp: "/scratch/gpfs/rk9481/specfem2d_kokkos/build"
-  specfem2d: "/scratch/gpfs/rk9481/do_not_change/benchmarks/cpu/specfem2d"
+  specfem2d:
+    cpu: "/scratch/gpfs/rk9481/do_not_change/benchmarks/cpu/specfem2d"
+    gpu: "/scratch/gpfs/rk9481/do_not_change/benchmarks/gpu/specfem2d"
+  specfempp:
+    cpu: "/scratch/gpfs/rk9481/specfem2d_kokkos/build_cpu"
+    gpu: "/scratch/gpfs/rk9481/specfem2d_kokkos/build_gpu"
 
 resources:
   cpu:
     nodes: 1
     tasks: 1
     cpus_per_task: 1
-    runtime: 10
-    mem_mb_per_cpu: 10000
+    runtime: 30
+    mem_mb_per_cpu: 40000
     constraint: skylake
     slurm_extra: ""
+  gpu:
+    nodes: 1
+    tasks: 1
+    cpus_per_task: 10
+    runtime: 30
+    mem_mb_per_cpu: 40000
+    constraint: a100
+    slurm_extra: "--gres=gpu:1"
 
 description:
   benchmark_1: "Elastic domain"
@@ -36,6 +48,23 @@ benchmarks:
       simulation_5:
         nx: [1, 1280]
         nz: [1, 960]
+    
+    gpu:
+      simulation_1:
+        nx: [1, 80]
+        nz: [1, 60]
+      simulation_2:
+        nx: [1, 80]
+        nz: [1, 600]
+      simulation_3:
+        nx: [1, 800]
+        nz: [1, 600]
+      simulation_4:
+        nx: [1, 800]
+        nz: [1, 3000]
+      simulation_5:
+        nx: [1, 1600]
+        nz: [1, 3000]
 
   benchmark_2:
     cpu:
@@ -51,9 +80,26 @@ benchmarks:
       simulation_4:
         nx: [1, 1280]
         nz: [1, 960]
-      # simulation_5:
-      #   nx: [1, 2560]
-      #   nz: [1, 1920]
+      simulation_5:
+        nx: [1, 2560]
+        nz: [1, 1920]
+    
+    gpu:
+      simulation_1:
+        nx: [1, 80]
+        nz: [1, 60]
+      simulation_2:
+        nx: [1, 80]
+        nz: [1, 600]
+      simulation_3:
+        nx: [1, 800]
+        nz: [1, 600]
+      simulation_4:
+        nx: [1, 800]
+        nz: [1, 3000]
+      simulation_5:
+        nx: [1, 1600]
+        nz: [1, 3000]
 
   benchmark_3:
     cpu:
@@ -69,7 +115,24 @@ benchmarks:
       simulation_4:
         nx: [1, 1152, 1, 1152]
         nz: [1, 432, 433, 864]
-      # simulation_5:
-      #   nx: [1, 2304, 1, 2304]
-      #   nz: [1, 864, 865, 1728]
+      simulation_5:
+        nx: [1, 2304, 1, 2304]
+        nz: [1, 864, 865, 1728]
+
+    gpu:
+      simulation_1:
+        nx: [1, 144, 1, 144]
+        nz: [1, 54, 55, 108]
+      simulation_2:
+        nx: [1, 144, 1, 144]
+        nz: [1, 540, 541, 1080]
+      simulation_3:
+        nx: [1, 720, 1, 720]
+        nz: [1, 540, 541, 1080]
+      simulation_4:
+        nx: [1, 1440, 1, 1440]
+        nz: [1, 1080, 1081, 2160]
+      simulation_5:
+        nx: [1, 1440, 1, 1440]
+        nz: [1, 2700, 2701, 5400]
     

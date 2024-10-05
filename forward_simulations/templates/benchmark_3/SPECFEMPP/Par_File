@@ -122,7 +122,7 @@ absorbleft                      = .true.
 # define the different regions of the model in the (nx,nz) spectral-element mesh
 nbregions                       = 2              # then set below the different regions and model number for each region
 {nx0} {nx1} {nz0} {nz1} 1
-{nx2} {nx3} {nz2} {nz3} 1
+{nx2} {nx3} {nz2} {nz3} 2
 
 #-----------------------------------------------------------
 #

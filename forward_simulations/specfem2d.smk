@@ -48,6 +48,11 @@ rule specfem2d_set_up:
 
         format_dict["nzmax"] = nzmax
 
+        if wildcards.machine == "cpu":
+            format_dict["gpu_mode"] = ".false."
+        else:
+            format_dict["gpu_mode"] = ".true."
+
         with open(input.par_file) as f:
             template = f.read()
 
@@ -69,8 +74,14 @@ rule specfem2d_set_up:
 
 rule specfem2d_link_executibles:
     input:
-        specfem_exec=config["build_dir"]["specfem2d"] + "/bin/xspecfem2D",
-        meshfem_exec=config["build_dir"]["specfem2d"] + "/bin/xmeshfem2D",
+        specfem_exec=lambda wildcards: config["build_dir"]["specfem2d"][
+            wildcards.machine
+        ]
+        + "/bin/xspecfem2D",
+        meshfem_exec=lambda wildcards: config["build_dir"]["specfem2d"][
+            wildcards.machine
+        ]
+        + "/bin/xmeshfem2D",
     output:
         specfem_exec="specfem2d_workdir/{benchmark}/{machine}/{simulation}/{repeat}/bin/xspecfem2D",
         meshfem_exec="specfem2d_workdir/{benchmark}/{machine}/{simulation}/{repeat}/bin/xmeshfem2D",

@@ -8,7 +8,55 @@ configfile: "config.yaml"
 
 rule all:
     input:
-        results="results.png",
+        plot="results.png",
+        csv="results.csv",
+
+
+rule concatenate_results:
+    input:
+        specfempp=expand(
+            "specfempp_workdir/{benchmark}/{machine}/results.csv",
+            benchmark=config["benchmarks"].keys(),
+            machine=config["resources"].keys(),
+        ),
+        specfem2d=expand(
+            "specfem2d_workdir/{benchmark}/{machine}/results.csv",
+            benchmark=config["benchmarks"].keys(),
+            machine=config["resources"].keys(),
+        ),
+    output:
+        "results.csv",
+    localrule: True
+    run:
+        import pandas as pd
+
+        df = pd.DataFrame()
+
+        for i in range(len(input.specfempp)):
+            benchmark = input.specfempp[i].split("/")[1]
+            machine = input.specfempp[i].split("/")[2]
+            df = pd.concat(
+                [
+                    df,
+                    pd.read_csv(input.specfempp[i]).assign(
+                        benchmark=benchmark, machine=machine, code="specfem++"
+                    ),
+                ]
+            )
+
+        for i in range(len(input.specfem2d)):
+            benchmark = input.specfem2d[i].split("/")[1]
+            machine = input.specfem2d[i].split("/")[2]
+            df = pd.concat(
+                [
+                    df,
+                    pd.read_csv(input.specfem2d[i]).assign(
+                        benchmark=benchmark, machine=machine, code="specfem2d"
+                    ),
+                ]
+            )
+
+        df.to_csv(output[0], index=False)
 
 
 rule plot_results:
@@ -35,15 +83,21 @@ rule plot_results:
         from plot import plot
         import matplotlib.pyplot as plt
 
-        nplots = len(input.specfempp)
+        benchmarks = config["benchmarks"].keys()
+        machines = config["resources"].keys()
 
-        fig, ax = plt.subplots(nplots, 2, figsize=(10, 4 * nplots))
+        fig, ax = plt.subplots(
+            len(benchmarks),
+            len(machines),
+            figsize=(5 * len(machines), 4 * len(benchmarks)),
+        )
 
-        for i in range(nplots):
-            benchmark = input.specfempp[i].split("/")[1]
-            machine = input.specfempp[i].split("/")[2]
-            label = config["description"][benchmark] + " (" + machine + ")"
-            plot(ax[i, 0], input.specfem2d[i], input.specfempp[i], label)
+        for i, benchmark in enumerate(benchmarks):
+            for j, machine in enumerate(machines):
+                specfem2d = f"specfem2d_workdir/{benchmark}/{machine}/results.csv"
+                specfempp = f"specfempp_workdir/{benchmark}/{machine}/results.csv"
+                label = config["description"][benchmark] + " (" + machine + ")"
+                plot(ax[i, j], specfem2d, specfempp, label)
 
         plt.savefig(output.plot)
 

@@ -77,7 +77,8 @@ rule specfempp_mesh_par_file:
 
 rule specfempp_mesh:
     input:
-        meshfem_bin=config["build_dir"]["specfempp"] + "/xmeshfem2D",
+        meshfem_bin=lambda wildcards: config["build_dir"]["specfempp"][wildcards.machine]
+        + "/xmeshfem2D",
         par_file="specfempp_workdir/{benchmark}/{machine}/{simulation}/mesh/mesh.par",
     output:
         mesh="specfempp_workdir/{benchmark}/{machine}/{simulation}/mesh/OUTPUT_FILES/database.bin",
@@ -127,7 +128,8 @@ rule specfempp_specfem_config:
 
 rule specfempp_solver:
     input:
-        solver_bin=config["build_dir"]["specfempp"] + "/specfem2d",
+        solver_bin=lambda wildcards: config["build_dir"]["specfempp"][wildcards.machine]
+        + "/specfem2d",
         specfem_config="specfempp_workdir/{benchmark}/{machine}/{simulation}/{repeat}/specfem_config.yaml",
         sources="specfempp_workdir/{benchmark}/{machine}/{simulation}/{repeat}/sources.yaml",
         mesh_database="specfempp_workdir/{benchmark}/{machine}/{simulation}/mesh/OUTPUT_FILES/database.bin",
