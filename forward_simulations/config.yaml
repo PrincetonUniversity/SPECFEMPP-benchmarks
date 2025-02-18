@@ -4,8 +4,8 @@ build_dir:
     cpu: "/scratch/gpfs/rk9481/do_not_change/benchmarks/cpu/specfem2d"
     gpu: "/scratch/gpfs/rk9481/do_not_change/benchmarks/gpu/specfem2d"
   specfempp:
-    cpu: "/scratch/gpfs/rk9481/specfem2d_kokkos/build_cpu"
-    gpu: "/scratch/gpfs/rk9481/specfem2d_kokkos/build_gpu"
+    cpu: "/scratch/gpfs/rk9481/specfem2d_kokkos/build_cpu/bin"
+    gpu: "/scratch/gpfs/rk9481/specfem2d_kokkos/build_gpu/bin"
 
 resources:
   cpu:
