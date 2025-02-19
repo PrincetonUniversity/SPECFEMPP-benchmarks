@@ -155,7 +155,7 @@ rule specfempp_solver:
     shell:
         """
             module purge
-            module load boost/1.73.0
+            module load boost/1.85.0
             mkdir -p {params.work_directory}/seismograms
 
             echo "Hostname: $(hostname)" > {output.output}
