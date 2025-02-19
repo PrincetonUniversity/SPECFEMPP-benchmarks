@@ -10,6 +10,7 @@ Benchmarks for 2D forward simulations :
 
 ![2D forward simulations](./forward_simulations/results.png)
 
+
 ## Reproducing the benchmarks
 
 To reproduce the benchmarks, you need to have the following dependencies installed:
