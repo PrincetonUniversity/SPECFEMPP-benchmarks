@@ -92,6 +92,19 @@ rule plot_results:
             figsize=(5 * len(machines), 4 * len(benchmarks)),
         )
 
+        # single x-axis label for all subplots
+        fig.text(0.5, 0.04, "Number of spectral elements", ha="center")
+        fig.text(0.04, 0.5, "Simulation time (s)", va="center", rotation="vertical")
+        fig.text(
+            0.96,
+            0.5,
+            s="Speedup",
+            ha="center",
+            va="center",
+            rotation="vertical",
+            color="red",
+        )
+
         for i, benchmark in enumerate(benchmarks):
             for j, machine in enumerate(machines):
                 specfem2d = f"specfem2d_workdir/{benchmark}/{machine}/results.csv"

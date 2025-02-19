@@ -55,17 +55,36 @@ def plot_benchmark(ax, baseline, current, label):
         label="SPECFEM++",
     )
 
-    ax.set_xlabel("Number of elements")
-    ax.set_ylabel("Solver time (s)")
+    # create a second y-axis
+    ax2 = ax.twinx()
+
+    # plot the speedup
+    speedup = current["solver_time_mean"] / baseline["solver_time_mean"]
+    ax2.scatter(
+        baseline["nxmax"] * baseline["nzmax"],
+        speedup,
+        color="red",
+        marker="^",
+        label="Speedup",
+    )
+
+    # ax.set_xlabel("Number of elements")
+    # ax.set_ylabel("Solver time (s)")
 
     ax.set_xscale("log")
     ax.set_yscale("log")
     # grid on dotted lines. transparency 0.5
-    ax.grid(True, which="both", linestyle="--", linewidth=0.5, color="gray", alpha=0.5)
+    # ax.grid(True, which="both", linestyle="--", linewidth=0.5, color="gray", alpha=0.5)
+
+    # ax2.set_ylabel("Speedup", color="red")
+    ax2.set_yscale("linear")
+    ax2.spines["right"].set_color("red")
+    # set y-axis limits
+    ax2.set_ylim([0, 5])
 
     # ticks inside the plot
-    ax.tick_params(axis="both", which="both", direction="in", top=True, right=True)
-
+    ax.tick_params(which="both", direction="in")
+    ax2.tick_params(which="both", direction="in", colors="red")
     ax.legend()
     ## put label on the bottom right corner
     ## wrap the label in a white box

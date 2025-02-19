@@ -33,7 +33,7 @@ parameters:
             directory: "{work_directory}/seismograms"
 
   receivers:
-    stations-file: "{stations_file}"
+    stations: "{stations_file}"
     angle: 0.0
     seismogram-type:
       - displacement
@@ -47,4 +47,5 @@ parameters:
   ## databases
   databases:
     mesh-database: "{mesh_database}"
-    source-file: "{source_file}"
+    
+  sources: "{source_file}"
