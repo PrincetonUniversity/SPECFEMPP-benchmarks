@@ -1,20 +1,29 @@
-[tool.poetry]
+[project]
 name = "specfempp-benchmarks"
-version = "0.1.0"
-description = "Benchmarks for SPECFEM++ codebase"
-authors = ["Rohit Kakodkar <kakodkar.rohit@gmail.com>"]
+version = "0.3.0"
+description = "SPECFEMPP Benchmarks"
 readme = "README.md"
+authors = [
+  { name = "Rohit R Kakodkar", email = "rohit_kakodkar@princeton.edu" },
+  { name = "Lucas Sawade", email = "lsawade@princeton.edu" },
+  { name = "Congyue Cui", email = "ccui@princeton.edu" }
+]
+requires-python = ">=3.12"
 
-[tool.poetry.dependencies]
-python = "^3.12"
-snakemake = "^8.14.0"
-snakemake-executor-plugin-slurm = "^0.10.0"
-pre-commit = ">=3.8.0"
-snakefmt = ">=0.10.0"
-ruff = ">=0.6.7"
-numpy = ">=2.1.1"
-matplotlib = ">=3.5.0"
-pandas = "^2.2.0"
+[tool.uv]
+package = false
+
+[dependency-groups]
+all = [
+    "snakemake==8.29.3",
+    "snakemake-executor-plugin-slurm==0.10.2",
+    "pre-commit==2.19.0",
+    "snakefmt==0.10.0",
+    "ruff==0.9.1",
+    "numpy~=2.1.1",
+    "matplotlib~=3.7.1",
+    "pandas~=2.2.0"
+]
 
 [tool.snakefmt]
 line_length = 90

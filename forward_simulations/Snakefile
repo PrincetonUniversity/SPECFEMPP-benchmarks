@@ -110,7 +110,7 @@ rule plot_results:
                 specfem2d = f"specfem2d_workdir/{benchmark}/{machine}/results.csv"
                 specfempp = f"specfempp_workdir/{benchmark}/{machine}/results.csv"
                 label = config["description"][benchmark] + " (" + machine + ")"
-                plot(ax[i, j], specfem2d, specfempp, label)
+                plot(ax, specfem2d, specfempp, label)
 
         plt.savefig(output.plot)
 
@@ -121,4 +121,6 @@ rule clean:
         """
         rm -rf specfempp_workdir 
         rm -rf specfem2d_workdir
+        rm results.csv
+        rm results.png
         """
