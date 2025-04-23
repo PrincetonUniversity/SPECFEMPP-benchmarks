@@ -104,7 +104,6 @@ rule specfem2d_mesh:
     shell:
         """
             module purge
-            module load intel-mpi/gcc/2019.7
 
             cd specfem2d_workdir/{wildcards.benchmark}/{wildcards.machine}/{wildcards.simulation}/{wildcards.repeat}/
             mkdir -p OUTPUT_FILES
@@ -136,7 +135,6 @@ rule specfem2d_forward_simulation:
     shell:
         """
             module purge
-            module load intel-mpi/gcc/2019.7
 
             cd specfem2d_workdir/{wildcards.benchmark}/{wildcards.machine}/{wildcards.simulation}/{wildcards.repeat}/
             echo "Hostname: $(hostname)" > output.log
@@ -176,7 +174,7 @@ rule specfem2d_compile_results:
             simulation=lambda wildcards: config["benchmarks"][wildcards.benchmark][
                 wildcards.machine
             ].keys(),
-            repeat=range(5),
+            repeat=range(1),
         ),
     output:
         output="specfem2d_workdir/{benchmark}/{machine}/results.csv",

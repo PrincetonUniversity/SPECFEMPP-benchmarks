@@ -195,7 +195,7 @@ rule specfempp_compile_results:
             simulation=lambda wildcards: config["benchmarks"][wildcards.benchmark][
                 wildcards.machine
             ].keys(),
-            repeat=range(5),
+            repeat=range(1),
         ),
     output:
         output="specfempp_workdir/{benchmark}/{machine}/results.csv",
