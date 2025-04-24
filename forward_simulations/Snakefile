@@ -102,8 +102,8 @@ rule clean:
         rm -rf specfempp_workdir/*/*/*/*/profile.csv
         rm -rf specfem2d_workdir/*/*/*/*/output.log
         rm -rf specfem2d_workdir/*/*/*/*/profile.csv
-        rm -rf specfempp_workdir/results.csv
-        rm -rf specfem2d_workdir/results.csv
+        rm -rf specfempp_workdir/*/*/results.csv
+        rm -rf specfem2d_workdir/*/*/results.csv
         rm results-*.csv
         rm results-*.png
         """
