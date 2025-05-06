@@ -45,9 +45,9 @@ benchmarks:
       simulation_4:
         nx: [1, 640]
         nz: [1, 480]
-      simulation_5:
-        nx: [1, 1280]
-        nz: [1, 960]
+      # simulation_5:
+      #   nx: [1, 1280]
+      #   nz: [1, 960]
     
     gpu:
       simulation_1:
