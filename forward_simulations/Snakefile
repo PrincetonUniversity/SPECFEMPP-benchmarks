@@ -6,17 +6,17 @@ include: "specfem2d.smk"
 configfile: "config.yaml"
 
 
-rule cpu:
+rule all:
     input:
         plot=expand(
             "results-{benchmark}-{machine}.png",
-            benchmark=["benchmark_1"],
-            machine=["cpu"],
+            benchmark=["benchmark_1", "benchmark_2", "benchmark_3"],
+            machine=["cpu", "gpu"],
         ),
         csv=expand(
             "results-{benchmark}-{machine}.csv",
-            benchmark=["benchmark_1"],
-            machine=["cpu"],
+            benchmark=["benchmark_1", "benchmark_2", "benchmark_3"],
+            machine=["cpu", "gpu"],
         ),
 
 
