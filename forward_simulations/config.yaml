@@ -34,20 +34,20 @@ benchmarks:
   benchmark_1:
     cpu:
       simulation_1:
+        nx: [1, 40]
+        nz: [1, 30]
+      simulation_2:
         nx: [1, 80]
         nz: [1, 60]
-      simulation_2:
+      simulation_3:
         nx: [1, 160]
         nz: [1, 120]
-      simulation_3:
+      simulation_4:
         nx: [1, 320]
         nz: [1, 240]
-      simulation_4:
+      simulation_5:
         nx: [1, 640]
         nz: [1, 480]
-      # simulation_5:
-      #   nx: [1, 1280]
-      #   nz: [1, 960]
     
     gpu:
       simulation_1:
@@ -69,20 +69,20 @@ benchmarks:
   benchmark_2:
     cpu:
       simulation_1:
+        nx: [1, 40]
+        nz: [1, 30]
+      simulation_2:
+        nx: [1, 80]
+        nz: [1, 60]
+      simulation_3:
         nx: [1, 160]
         nz: [1, 120]
-      simulation_2:
+      simulation_4:
         nx: [1, 320]
         nz: [1, 240]
-      simulation_3:
+      simulation_5:
         nx: [1, 640]
         nz: [1, 480]
-      simulation_4:
-        nx: [1, 1280]
-        nz: [1, 960]
-      simulation_5:
-        nx: [1, 2560]
-        nz: [1, 1920]
     
     gpu:
       simulation_1:
@@ -104,20 +104,20 @@ benchmarks:
   benchmark_3:
     cpu:
       simulation_1:
+        nx: [1, 72, 1, 72]
+        nz: [1, 27, 28, 54]
+      simulation_2:
         nx: [1, 144, 1, 144]
         nz: [1, 54, 55, 108]
-      simulation_2:
+      simulation_3:
         nx: [1, 288, 1, 288]
         nz: [1, 108, 109, 216]
-      simulation_3:
+      simulation_4:
         nx: [1, 576, 1, 576]
         nz: [1, 216, 217, 432]
-      simulation_4:
+      simulation_5:
         nx: [1, 1152, 1, 1152]
         nz: [1, 432, 433, 864]
-      simulation_5:
-        nx: [1, 2304, 1, 2304]
-        nz: [1, 864, 865, 1728]
 
     gpu:
       simulation_1:

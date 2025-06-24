@@ -59,7 +59,7 @@ def plot_benchmark(ax, baseline, current, label):
     ax2 = ax.twinx()
 
     # plot the speedup
-    speedup = current["solver_time_mean"] / baseline["solver_time_mean"]
+    speedup = baseline["solver_time_mean"] / current["solver_time_mean"]
     ax2.scatter(
         baseline["nxmax"] * baseline["nzmax"],
         speedup,
@@ -79,12 +79,15 @@ def plot_benchmark(ax, baseline, current, label):
     # ax2.set_ylabel("Speedup", color="red")
     ax2.set_yscale("linear")
     ax2.spines["right"].set_color("red")
+    # specify ax2 tick locations
+    ax2.set_yticks([0, 1, 2])
     # set y-axis limits
-    ax2.set_ylim([0, 5])
+    ax2.set_ylim([0, 2])
 
     # ticks inside the plot
     ax.tick_params(which="both", direction="in")
     ax2.tick_params(which="both", direction="in", colors="red")
+
     ax.legend()
     ## put label on the bottom right corner
     ## wrap the label in a white box
