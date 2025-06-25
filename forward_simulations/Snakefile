@@ -8,72 +8,61 @@ configfile: "config.yaml"
 
 rule all:
     input:
-        plot="results.png",
-        csv="results.csv",
+        plot=expand(
+            "results-{benchmark}-{machine}.png",
+            benchmark=["benchmark_1", "benchmark_2", "benchmark_3"],
+            machine=["cpu", "gpu"],
+        ),
+        csv=expand(
+            "results-{benchmark}-{machine}.csv",
+            benchmark=["benchmark_1", "benchmark_2", "benchmark_3"],
+            machine=["cpu", "gpu"],
+        ),
 
 
 rule concatenate_results:
     input:
-        specfempp=expand(
-            "specfempp_workdir/{benchmark}/{machine}/results.csv",
-            benchmark=config["benchmarks"].keys(),
-            machine=config["resources"].keys(),
-        ),
-        specfem2d=expand(
-            "specfem2d_workdir/{benchmark}/{machine}/results.csv",
-            benchmark=config["benchmarks"].keys(),
-            machine=config["resources"].keys(),
-        ),
+        specfempp="specfempp_workdir/{benchmark}/{machine}/results.csv",
+        specfem2d="specfem2d_workdir/{benchmark}/{machine}/results.csv",
     output:
-        "results.csv",
+        "results-{benchmark}-{machine}.csv",
     localrule: True
     run:
         import pandas as pd
 
         df = pd.DataFrame()
 
-        for i in range(len(input.specfempp)):
-            benchmark = input.specfempp[i].split("/")[1]
-            machine = input.specfempp[i].split("/")[2]
-            df = pd.concat(
-                [
-                    df,
-                    pd.read_csv(input.specfempp[i]).assign(
-                        benchmark=benchmark, machine=machine, code="specfem++"
-                    ),
-                ]
-            )
+        benchmark = wildcards.benchmark
+        machine = wildcards.machine
 
-        for i in range(len(input.specfem2d)):
-            benchmark = input.specfem2d[i].split("/")[1]
-            machine = input.specfem2d[i].split("/")[2]
-            df = pd.concat(
-                [
-                    df,
-                    pd.read_csv(input.specfem2d[i]).assign(
-                        benchmark=benchmark, machine=machine, code="specfem2d"
-                    ),
-                ]
-            )
+        df = pd.concat(
+            [
+                df,
+                pd.read_csv(input.specfempp).assign(
+                    benchmark=benchmark, machine=machine, code="specfem++"
+                ),
+            ]
+        )
+
+        df = pd.concat(
+            [
+                df,
+                pd.read_csv(input.specfem2d).assign(
+                    benchmark=benchmark, machine=machine, code="specfem2d"
+                ),
+            ]
+        )
 
         df.to_csv(output[0], index=False)
 
 
 rule plot_results:
     input:
-        specfempp=expand(
-            "specfempp_workdir/{benchmark}/{machine}/results.csv",
-            benchmark=config["benchmarks"].keys(),
-            machine=config["resources"].keys(),
-        ),
-        specfem2d=expand(
-            "specfem2d_workdir/{benchmark}/{machine}/results.csv",
-            benchmark=config["benchmarks"].keys(),
-            machine=config["resources"].keys(),
-        ),
+        specfempp="specfempp_workdir/{benchmark}/{machine}/results.csv",
+        specfem2d="specfem2d_workdir/{benchmark}/{machine}/results.csv",
         plot_script="../scripts/plot.py",
     output:
-        plot="results.png",
+        plot="results-{benchmark}-{machine}.png",
     localrule: True
     run:
         import sys
@@ -83,16 +72,14 @@ rule plot_results:
         from plot import plot
         import matplotlib.pyplot as plt
 
-        benchmarks = config["benchmarks"].keys()
-        machines = config["resources"].keys()
+        benchmark = wildcards.benchmark
+        machine = wildcards.machine
+        specfem2d = f"specfem2d_workdir/{benchmark}/{machine}/results.csv"
+        specfempp = f"specfempp_workdir/{benchmark}/{machine}/results.csv"
 
-        fig, ax = plt.subplots(
-            len(benchmarks),
-            len(machines),
-            figsize=(5 * len(machines), 4 * len(benchmarks)),
-        )
-
-        # single x-axis label for all subplots
+        label = config["description"][benchmark] + " (" + machine + ")"
+        fig, ax = plt.subplots(figsize=(5, 4))
+        plot(ax, specfem2d, specfempp, label)
         fig.text(0.5, 0.04, "Number of spectral elements", ha="center")
         fig.text(0.04, 0.5, "Simulation time (s)", va="center", rotation="vertical")
         fig.text(
@@ -104,14 +91,6 @@ rule plot_results:
             rotation="vertical",
             color="red",
         )
-
-        for i, benchmark in enumerate(benchmarks):
-            for j, machine in enumerate(machines):
-                specfem2d = f"specfem2d_workdir/{benchmark}/{machine}/results.csv"
-                specfempp = f"specfempp_workdir/{benchmark}/{machine}/results.csv"
-                label = config["description"][benchmark] + " (" + machine + ")"
-                plot(ax[i, j], specfem2d, specfempp, label)
-
         plt.savefig(output.plot)
 
 
@@ -119,6 +98,12 @@ rule clean:
     localrule: True
     shell:
         """
-        rm -rf specfempp_workdir 
-        rm -rf specfem2d_workdir
+        rm -rf specfempp_workdir/*/*/*/*/output.log
+        rm -rf specfempp_workdir/*/*/*/*/profile.csv
+        rm -rf specfem2d_workdir/*/*/*/*/output.log
+        rm -rf specfem2d_workdir/*/*/*/*/profile.csv
+        rm -rf specfempp_workdir/*/*/results.csv
+        rm -rf specfem2d_workdir/*/*/results.csv
+        rm results-*.csv
+        rm results-*.png
         """

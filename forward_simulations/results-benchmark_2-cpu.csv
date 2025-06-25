@@ -1,0 +1,11 @@
+nxmax,nzmax,repeat,solver_time,hostname,benchmark,machine,code
+40,30,repeat_0,0.528805,della-h17n1,benchmark_2,cpu,specfem++
+80,60,repeat_0,1.20633,della-h17n1,benchmark_2,cpu,specfem++
+160,120,repeat_0,3.43174,della-h17n1,benchmark_2,cpu,specfem++
+320,240,repeat_0,12.2324,della-h17n1,benchmark_2,cpu,specfem++
+640,480,repeat_0,48.0701,della-h17n1,benchmark_2,cpu,specfem++
+40,30,repeat_0,0.140669003,della-h17n1,benchmark_2,cpu,specfem2d
+80,60,repeat_0,0.492579013,della-h17n1,benchmark_2,cpu,specfem2d
+160,120,repeat_0,1.96862805,della-h17n1,benchmark_2,cpu,specfem2d
+320,240,repeat_0,8.1144619,della-h17n1,benchmark_2,cpu,specfem2d
+640,480,repeat_0,34.6259956,della-h17n1,benchmark_2,cpu,specfem2d
