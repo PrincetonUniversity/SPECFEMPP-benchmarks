@@ -5,7 +5,7 @@
 #SBATCH --error=cpu_benchmarks_error.txt
 #SBATCH --nodes=1
 #SBATCH --exclusive
-#SBATCH --constraint="intel|cascade"
+#SBATCH --constraint="intel,cascade"
 #SBATCH --time=01:00:00
 
 source .venv/bin/activate  # Activate the virtual environment
