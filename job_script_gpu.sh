@@ -9,6 +9,7 @@
 #SBATCH --mem-per-cpu=40000
 #SBATCH --time=01:00:00
 #SBATCH --gres=gpu:1  # Request a GPU resource
+#SBATCH --constraint='intel,icelake,a100,gpu80'
 
 source .venv/bin/activate  # Activate the virtual environment
 
